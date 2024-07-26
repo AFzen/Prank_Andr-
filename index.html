@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phishing Test - You Have Been Phished!</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden;
+      display: flex;
+      /* Make body flex */
+      justify-content: center;
+      /* Center content horizontally */
+      align-items: center;
+      /* Center content vertically */
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container-wrapper {
+      display: flex;
+      /* Make container-wrapper flex */
+      justify-content: center;
+      /* Center container horizontally */
+      align-items: center;
+      /* Center container vertically */
+      width: 100%;
+      height: 100%;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 20px;
+      border: 2px solid #0f0;
+      border-radius: 2px;
+      background-color: rgba(0, 0, 0, 0.85);
+      animation: border-flicker 1.5s infinite alternate;
+      max-width: 90%;
+      width: 100%;
+      box-sizing: border-box;
+      max-height: 90%;
+      overflow-y: auto;
+    }
+
+    @keyframes border-flicker {
+      0% {
+        border-color: #0f0;
+      }
+
+      50% {
+        border-color: #0f0;
+      }
+
+      100% {
+        border-color: #0a0;
+      }
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #f00;
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: #f00;
+    }
+
+    .hacker-text {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+
+    .btn {
+      margin-top: 30px;
+    }
+
+    .skull {
+      max-width: 50%;
+      height: auto;
+      margin: 20px auto;
+    }
+
+    .matrix {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .glitch {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://i.imgur.com/GLt6GHO.png') repeat;
+      mix-blend-mode: color-dodge;
+      animation: glitch 1s steps(2) infinite;
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(-10px, -10px);
+      }
+
+      100% {
+        transform: translate(10px, 10px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        overflow-x: hidden;
+      }
+    }
+
+    ::-webkit-scrollbar {
+        width: 10px; /* Largura da barra */
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #000000; /* Cor do fundo da trilha */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #0a0; /* Cor da parte rolável (mesma cor da borda) */
+        border-radius: 2px; /*Arredonda as bordas da barra */
+    }
+    
+  </style>
+</head>
+
+<body>
+  <div class="container-wrapper">
+    <div class="container">
+        <img src="https://i.postimg.cc/Vksw09gg/101e2cfd3e928f9ef9f99138c43d46b2.png" alt="Skull" class="skull" width="170" height="120">
+      <h2 class="display-5">Oops, você caiu em um teste de phishing!</h2>
+      <p class="lead hacker-text">Se você chegou até aqui, isso significa que você não passou por nossos testes de
+        segurança.</p>
+      <p class="hacker-text">Lembre-se de sempre de verificar cuidadosamente os links antes de clicar e de relatar à
+        equipe de TI imediatamente mediante qualquer atividade suspeita. A segurança de nossos dados e informações é uma
+        responsabilidade de todos nós.</p>
+      <p class="hacker-text">Obrigado por sua cooperação e comprometimento com a segurança da empresa!</p>
+    </div>
+  </div>
+  <canvas class="matrix"></canvas>
+  <div class="glitch"></div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    const canvas = document.querySelector('.matrix');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const letters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const fontSize = 16;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      ctx.fillStyle = '#0f0';
+      ctx.font = `${fontSize}px Courier`;
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = letters.charAt(Math.floor(Math.random() * letters.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 30);
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+  </script>
+</body>
+
+</html>
